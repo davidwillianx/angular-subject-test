@@ -1,0 +1,33 @@
+<p>
+  Awesome Pokemon Content Will be show Right here!! ... I guess
+</p>
+<div>
+  <span style="margin-right: 15px;"><a routerLink="/dash/deleted">DELETED</a></span>
+  <span style="margin-right: 15px;"><a routerLink="/dash/favorited">FAVORITES</a></span>
+  <span style="margin-right: 15px;"><a routerLink="/dash/received">RECEIVED</a></span>
+</div>
+
+<table
+  *ngIf="pokemons"
+  border="1px;"
+>
+  <thead>
+    <th>Name</th>
+    <th>Atack</th>
+    <th>Deff</th>
+    <th>Actions</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let pokemon of pokemons">
+      <td>{{pokemon.name}}</td>
+      <td>{{pokemon.attack}}</td>
+      <td>{{pokemon.defense}}</td>
+      <td>
+        <span style="margin-right: 15px;"><a (click)="deletePokemon(pokemon)">DELETE</a></span>
+        <span style="margin-right: 15px;"><a (click)="favoritePokemon(pokemon)">FAVORITE</a></span>
+        <span style="margin-right: 15px;"><a (click)="receivePokemon(pokemon)">RECEIVE</a></span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h1>Quantidade de pokemons: {{pokemonsCurrentSize}}</h1>
