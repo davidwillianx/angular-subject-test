@@ -1,5 +1,8 @@
 # AngularSubjects
 
+It's just a sample to solve a few problems in my work day;
+I just sarted angular as a working product framework and I got a few challenges, like understand how exactly Observables(RxJs) should be use and how to make my apps more sweet and cute!
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.4.
 
 ## Development server

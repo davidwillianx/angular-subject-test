@@ -3,6 +3,7 @@ import { PokemonService } from 'src/app/services/pokemon-service/pokemon.service
 import { Pokemon } from 'src/app/models/pokemon';
 import { Message } from 'src/app/models/message';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 const FAVORITED_URL = 'favorited';
 const RECEIVED_URL = 'received';
@@ -31,6 +32,17 @@ export class TablePokemonsComponent implements OnInit, OnDestroy {
   private pokeType: string;
 
 
+
+  /**
+   * Pokemon subscription reference
+   */
+  private pokemonSubscription: Subscription;
+
+  /**
+   * Router subscription reference
+   */
+  private paramSubscription: Subscription;
+
   /**
    * Start pokemons based on the type selected on the URL
    * @param activatedRoute current route to get the type of pokemons to show
@@ -42,12 +54,12 @@ export class TablePokemonsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
+    this.paramSubscription = this.activatedRoute.params.subscribe(params => {
       this.pokeType = params['pokeType'];
       this.loadContent();
     });
 
-    this.pokemonService.pokemonsSubject
+    this.pokemonSubscription = this.pokemonService.pokemonsSubject
       .subscribe((pokemons: Pokemon[]) => {
         this.pokemons = pokemons;
       });
@@ -55,6 +67,8 @@ export class TablePokemonsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.pokemonSubscription.unsubscribe();
+    this.paramSubscription.unsubscribe();
   }
 
   public loadContent(): void {

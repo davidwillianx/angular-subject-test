@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PokemonService } from 'src/app/services/pokemon-service/pokemon.service';
 import { Pokemon } from 'src/app/models/pokemon';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-side-menu',
   templateUrl: './side-menu.component.html',
   styleUrls: ['./side-menu.component.css']
 })
-export class SideMenuComponent implements OnInit {
+export class SideMenuComponent implements OnInit, OnDestroy {
 
   /**
    * Reffrente state of pokemon list
@@ -30,12 +31,18 @@ export class SideMenuComponent implements OnInit {
    */
   protected deffenseAverage: number;
 
+
+  /**
+   * Pokemon subscription reference
+   */
+  private pokemonSubscription: Subscription;
+
   constructor(
     private pokemonService: PokemonService
   ) { }
 
   ngOnInit() {
-    this.pokemonService.pokemonsSubject
+    this.pokemonSubscription = this.pokemonService.pokemonsSubject
       .subscribe((pokemons: Pokemon[]) => {
         this.amountOfPokemons = pokemons.length;
 
@@ -47,6 +54,10 @@ export class SideMenuComponent implements OnInit {
           .map(pokemon => pokemon.defense)
           .reduce(deffense => deffense);
       });
+  }
+
+  ngOnDestroy() {
+    this.pokemonSubscription.unsubscribe();
   }
 
 }
